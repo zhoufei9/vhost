@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+		<title>路径斜杠反转</title>
+    </head>
+<p style="width:65%;text-align:center">路径斜杠反转 &nbsp&nbsp <input type="text" id="notice" disabled value="提示框" style="width:100px">  <button class="layui-btn" onclick="window.location='/'" type="button" >返回</button></p>
+ <textarea rows="12" cols="80" id="target" onkeyup="transformation();" placeholder="输入路径"></textarea> &nbsp&nbsp => &nbsp&nbsp
+ <textarea rows="12" cols="80" id="result" readonly placeholder="反转结果"></textarea>
+
+
+<script type="text/javascript">
+function transformation() {
+    var url = document.getElementById("target").value;
+
+    if (url.indexOf("\/") != -1) {
+        for (i = 0; i < 20; i++) {
+            url = url.replace("\/", "\\")
+         }
+        document.getElementById("result").value = url;
+    } else {
+        if (url.indexOf("\\") != -1) {
+            for (i = 0; i < 20; i++) {
+              url = url.replace("\\", "\/");
+            }
+            document.getElementById("result").value = url;
+        }
+    }
+
+
+      var input = document.getElementById("result");
+      input.select(); // 选中文本
+      document.execCommand("copy"); // 执行浏览器复制命令
+
+      document.getElementById("notice").value = "已复制到粘贴板"
+
+      var t=setTimeout("clean()",15000);
+
+}
+
+
+function clean() {
+   document.getElementById("notice").value = ""
+}
+
+</script>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="height: 100%">
+<head>
+    <meta charset="utf-8" >
+    <title>习惯散点图</title>
+    <link rel="stylesheet" href="/public/static/lib/layui-v2.5.5/css/layui.css" media="all">
+    <script src="/public/static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+</head>
+<body style="height: 100%; margin: 0">
+<div class="layuimini-main">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" id="name" lay-verify="title" autocomplete="off" placeholder="请输入习惯名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date" id="date"  placeholder="未填写则默认今天" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div style="display: inline-block;">
+                <div>
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1" id="demo1" type="button" >添加</button>
+                </div>
+            </div>
+            <div style="display: inline-block;">
+                <div>
+                    <button class="layui-btn" onclick="window.location='/'" type="button" style="background-color: #3ad7b3;">返回</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <volist name="allHabitClass" id="vo">
+                <div class="layui-inline">
+                    <label class="layui-form-label">{$vo.name}</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" <if condition="empty($vo['endDate'])">checked=""</if> value="{$vo.id}" data_name="{$vo.name}" name="open" lay-skin="switch" lay-filter="actionHabit" lay-text="结束|开始">
+                    </div>
+                </div>
+            </volist>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['jquery', 'form','laydate'], function() {
+        var form = layui.form, laydate = layui.laydate, $ = layui.jquery;
+        form.render();
+        laydate.render({
+            elem: '#date'
+        });
+
+        $("#name").focus();
+        $(document).keyup(function(event){
+            if(event.keyCode ==13){
+                $("#demo1").trigger("click");
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(actionHabit)', function (data) {
+            $.post('/index.php?s=/home/tools/actionHabit',
+                    {id: data.value, name: data.elem.getAttribute('data_name'), action: this.checked},
+                    function(data){
+                        if (data.code == 0) {
+                            window.location.reload()
+                        } else {
+                            layer.alert(data.msg, {
+                                title: '错误提示'
+                            });
+                            return false;
+                        }
+                    },
+                    'json');
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            var name = $("#name").val();
+            if (name == '') {
+                layer.alert('名称不能为空', {
+                    title: '错误提示'
+                });
+                return false;
+            }
+            $.post('/index.php?s=/home/tools/addHabit',
+                    data.field,
+                    function(data){
+                        if (data.code == 0) {
+                            window.location.reload()
+                        } else {
+                            layer.alert(data.msg, {
+                                title: '错误提示'
+                            });
+                            return false;
+                        }
+                    },
+                    'json');
+        });
+    });
+</script>
+
+<div id="container" style="height: 80%"></div>
+<script type="text/javascript" src="/public/static/js/echarts.min.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+
+    var option;
+    var itemStyle = {
+        opacity: 0.8,
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
+        shadowColor: 'rgba(0,0,0,0.3)'
+    };
+    var schema = [
+        {name: 'times', index: 1, text: '周期'},
+        {name: 'startTime', index: 2, text: '开始时间'},
+        {name: 'duration', index: 3, text: '持续天数'},
+        {name: 'endTime', index: 4, text: '结束时间'},
+    ];
+
+    var legend_data = {$stickToltDataKeyList};
+    var seriesList = [<foreach name="stickToltData" item="vo" >
+            {name: "{$key}",
+            type: 'scatter',
+            itemStyle: itemStyle,
+            data: <?php echo json_encode($vo);?>},
+            </foreach>
+    ];
+
+    option = {
+        color: [
+            '#9F0050', '#6C6C6C', '#000079', '#6A6AFF', '#467500', '#C2FF68', '#FF359A', '#CF9E9E', '#750000', '#FF0000', '#FF9797', '#66B3FF', '#737300', '#FFFF93', '#949449', '#9F0050', '#613030', '#ffaad5', '#007979', '#00FFFF', '#3D7878', '#95CACA', '#5E005E', '#FF44FF', '#5E005E', '#BB5E00', '#FFAF60', '#5151A2', '#A6A6D2', '#3A006F', '#B15BFF', '#7E3D76', '#D2A2CC'
+        ],
+        legend: {
+            top: 10,
+            data: legend_data,
+            textStyle: {
+                fontSize: 16
+            }
+        },
+        grid: {
+            left: '10%',
+            right: 150,
+            top: '18%',
+            bottom: '10%'
+        },
+        series: seriesList,
+        tooltip: {
+            backgroundColor: ['rgba(255,255,255,0.7)'],
+            formatter: function (obj) {
+                var value = obj.value;
+                return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+                        + obj.seriesName  + ' (' + '{$today_date}'  + ')'
+                        + '</div>'
+                        + schema[0].text + '：' + value[3] + '<br>'
+                        + schema[1].text + '：' + value[0] + '<br>'
+                        + schema[2].text + '：' + value[1] + '<br>'
+                        + schema[3].text + '：' + value[2] + '<br>';
+            }
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            type: 'value',
+            name: '持续天数',
+            nameLocation: 'end',
+            nameGap: 20,
+            nameTextStyle: {
+                fontSize: 16
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        visualMap: [
+            {
+                left: 'right',
+                top: '10%',
+                dimension: 1,
+                min: 0,
+                max: 250,
+                itemWidth: 30,
+                itemHeight: 120,
+                calculable: true,
+                precision: 0.1,
+                text: ['持续天数'],
+                textGap: 30,
+                inRange: {
+                    symbolSize: [10, 70]
+                },
+                outOfRange: {
+                    symbolSize: [10, 70],
+                    color: ['rgba(255,255,255,0.4)']
+                },
+                controller: {
+                    inRange: {
+                        color: ['#c23531']
+                    },
+                    outOfRange: {
+                        color: ['#999']
+                    }
+                }
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+        window.onresize = function() {
+            myChart.resize();
+        };
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/public/static/lib/layui-v2.5.5/css/layui.css" media="all">
+        <script src="/public/static/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+        <title>血糖体重监测记录表</title>
+    </head>
+    <body style="height: 100%; margin: 0">
+    <div class="layuimini-main">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 130px;">血糖值（毫摩尔/升）</label>
+                    <div class="layui-input-inline">
+                        <select name="xtz" >
+                            <for start="2" end="20" step="0.1">
+                                <option value="{$i}" <if condition="bccomp($i, $lastList['x']['value'], 1) == 0">selected</if>>{$i}</option>
+                            </for>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">测量时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="date_x" id="date_x"  placeholder="未填写则默认当前时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div style="display: inline-block;">
+                    <div>
+                        <button class="layui-btn" lay-submit="" lay-filter="submit_x" id="submit_x" type="button" >添加</button>
+                    </div>
+                </div>
+                <div style="display: inline-block;">
+                    <div>
+                        <button class="layui-btn" onclick="window.location='/'" type="button" style="background-color: #3ad7b3;">返回</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: 130px;">体重（kg）</label>
+                    <div class="layui-input-inline">
+                        <select name="tz" >
+                            <for start="35" end="200" step="0.1">
+                                <option value="{$i}" <if condition="bccomp($i, $lastList['t']['value'], 1) == 0">selected</if>>{$i}</option>
+                            </for>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">测量时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="date_t" id="date_t"  placeholder="未填写则默认当前时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div style="display: inline-block;">
+                    <div>
+                        <button class="layui-btn" lay-submit="" lay-filter="submit_t" id="submit_t" type="button" >添加</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        layui.use(['jquery', 'form','laydate'], function() {
+            var form = layui.form, laydate = layui.laydate, $ = layui.jquery;
+            form.render();
+            laydate.render({
+                elem: '#date_x',
+                type: 'datetime'
+            });
+            laydate.render({
+                elem: '#date_t',
+                type: 'datetime'
+            });
+
+            //监听提交
+            form.on('submit(submit_x)', function (data) {
+                $.post('/index.php?s=/home/tools/addBloodGlucoseValue',
+                        data.field,
+                        function(data){
+                            if (data.code == 0) {
+                                window.location.reload()
+                            } else {
+                                layer.alert(data.msg, {
+                                    title: '错误提示'
+                                });
+                                return false;
+                            }
+                        },
+                        'json');
+            });
+
+            form.on('submit(submit_t)', function (data) {
+                $.post('/index.php?s=/home/tools/addWeight',
+                        data.field,
+                        function(data){
+                            if (data.code == 0) {
+                                window.location.reload()
+                            } else {
+                                layer.alert(data.msg, {
+                                    title: '错误提示'
+                                });
+                                return false;
+                            }
+                        },
+                        'json');
+            });
+        });
+    </script>
+        <div id="container" style="height: 80%"></div>
+        <script type="text/javascript" src="/public/static/js/echarts.min.js"></script>
+        <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+
+var option;
+option = {
+  title: {
+    text: '血糖、体重监测记录表'
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: ['血糖值（毫摩尔/升）', '体重（10斤）']
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  toolbox: {
+    feature: {
+      saveAsImage: {}
+    }
+  },
+  xAxis: {
+    type: 'category'
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      name: '血糖值（毫摩尔/升）',
+      type: 'line',
+      stack: 'Total',
+      data: {$ass_bloodGlucoseValueList}
+    },
+    {
+      name: '体重（10斤）',
+      type: 'line',
+      stack: 'Total',
+      data: {$ass_weighList}
+    }
+  ]
+};
+
+if (option && typeof option === 'object') {
+    myChart.setOption(option);
+    window.onresize = function() {
+        myChart.resize();
+    };
+}
+
+        </script>
+    </body>
+</html>

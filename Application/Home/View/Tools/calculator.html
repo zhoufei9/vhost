@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>在线计算器-科学计算器在线使用-数学-根号-三角形-函数-公式-时间-面积-体积</title>
+	<meta http-equiv="Cache-Control" content="no-transform">
+	<meta http-equiv="Cache-Control" content="no-siteapp">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">
+	<meta name="applicable-device" content="pc,mobile">
+	<meta name="MobileOptimized" content="width">
+	<meta name="HandheldFriendly" content="true">
+	<script>
+		var broj = "0"
+		var tocka = 0
+		var eksp = 0
+		var eksponent = 3
+		var rjesenje = 0
+		var zastavica = 0
+		var decimala = 0
+		var enter = ""
+		var ConstOpen = 0
+		var ConstWin = ""
+		var MenuOpen = 0
+		var MenuWin = ""
+		var CalcOpen = 0
+		var CalcWin = ""
+		var MainWin = ""
+		var element = ""
+		var abc = "";
+
+
+		function start(){
+			enter = document.racunalo.notes.value;
+			if (enter.length > 2) {enter = enter.charAt(enter.length-1)};
+			document.racunalo.notes.value = "";
+			document.racunalo.zadatak.focus()
+		}
+
+
+		function remote(stranica){
+			ConstOpen = 1;
+			if (ConstWin.open) {
+				ConstWin.document.konstante.naslov.focus()
+			}
+			else {
+				ConstWin=window.open(stranica, "", "width=300,height=500,scrollbars=yes");
+				ConstWin.creator=self
+			}
+		}
+
+
+		function Zatvoreno() {
+			if (ConstOpen == 1) {ConstWin.ConstOpen = 1; ConstWin.close()}
+			if (CalcOpen == 1) {CalcWin.close()}
+			if (MenuOpen == 1) {MenuWin.close()}
+		}
+
+
+		function memory(operator) {
+
+			document.racunalo.zadatak.focus();
+
+			if (operator == 1) {
+				document.racunalo.memorija.value = document.racunalo.rezultat.value
+			}
+			else if (operator == 2)	{
+				var memorija = document.racunalo.memorija.value;
+				if (memorija==0 || slovo(memorija.charAt(0))) {memorija = ""};
+				document.racunalo.zadatak.value += memorija
+			}
+			else if (operator == 3) {
+				if (document.racunalo.zadatak.value == "") {
+					document.racunalo.rezultat.value = ""
+				}
+				else {
+					document.racunalo.zadatak.value = ""
+				}
+			}
+			else if (operator == 4) {
+				document.racunalo.notes.value = "";
+				document.racunalo.zadatak.focus()
+			}
+		}
+
+
+		function display(noviznak) {
+			if (noviznak=="")
+			{document.racunalo.zadatak.focus()}
+			else
+			{document.racunalo.rezultat.select()}
+		}
+
+
+		function dodajBroj(noviznak) {
+			document.racunalo.zadatak.focus();
+			document.racunalo.zadatak.value += noviznak
+		}
+
+
+		function izracunaj(zarez) {
+			var pitanje = "";
+			var mem = 0;
+
+			if (zarez >= 1) {
+				if (document.racunalo.zadatak.value == "") {
+					broj = document.racunalo.rezultat.value
+				}
+				else {
+					broj = document.racunalo.zadatak.value;
+					if (ubacirezultat(broj.charAt(0))) {
+						broj = document.racunalo.rezultat.value + broj
+					}
+				}
+			}
+
+			for (var i=0; i<broj.length; i++) {
+				if (slovo(broj.charAt(i))) {var kem = 1};
+				if (broj.charAt(i) == ",") {pitanje += "."}
+				else if (broj.charAt(i) == " ") {}
+				else {pitanje += broj.charAt(i)}
+			}
+
+			if (operator(broj.charAt(broj.length-1))) {return false};
+
+			if (zarez == 1) {
+				document.racunalo.notes.value += pitanje + enter;
+				if (kem == 1) {
+					var atom = "+" + pitanje;
+					pitanje = masa(atom)
+				}
+				else {
+					pitanje = eval("1*" + pitanje)
+				}
+			}
+			else if (zarez > 1) {
+				pitanje = eval("1*" + pitanje);
+				pitanje = matematika(zarez, pitanje)
+			}
+
+			document.racunalo.oldrezultat.value = pitanje;
+
+			zaokruzi(pitanje);
+
+			document.racunalo.zadatak.value = "";
+			document.racunalo.zadatak.focus()
+		}
+
+
+		function matematika(zarez, rjesenje) {
+			with (Math)
+			{
+				if (zarez == 2) {
+					document.racunalo.notes.value += rjesenje + "^2" + enter;
+					rjesenje = pow(rjesenje, 2)
+				}
+				else if (zarez == 3) {
+					document.racunalo.notes.value += rjesenje + "^(1/2)" + enter;
+					rjesenje = sqrt(rjesenje)
+				}
+				else if (zarez == 4) {
+					document.racunalo.notes.value += rjesenje + "*(-1)" + enter;
+					rjesenje = -rjesenje
+				}
+				else if (zarez == 5) {
+					document.racunalo.notes.value += "ln(" + rjesenje + ")" + enter;
+					rjesenje = log(rjesenje)
+				}
+				else if (zarez == 6) {
+					document.racunalo.notes.value += "e^" + rjesenje + enter;
+					rjesenje = pow(E, rjesenje)
+				}
+				else if (zarez == 7) {
+					document.racunalo.notes.value += "1/" + rjesenje + enter;
+					rjesenje = 1/rjesenje
+				}
+				else if (zarez == 8) {
+					document.racunalo.notes.value += "log(" + rjesenje + ")" + enter;
+					rjesenje = log(rjesenje)/LN10
+				}
+				else if (zarez == 9) {
+					document.racunalo.notes.value += "10^" + rjesenje + enter;
+					rjesenje = pow(10, rjesenje)
+				}
+				else if (zarez >= 10 && zarez <= 12) {
+					if (zarez == 10) {
+						document.racunalo.notes.value += "atan(" + rjesenje + ")" + enter;
+						rjesenje = atan(rjesenje)
+					}
+					else if (zarez == 11) {
+						document.racunalo.notes.value += "acos(" + rjesenje + ")" + enter;
+						rjesenje = acos(rjesenje)
+					}
+					else if (zarez == 12) {
+						document.racunalo.notes.value += "asin(" + rjesenje + ")" + enter;
+						rjesenje = asin(rjesenje)
+					}
+
+					if (document.racunalo.stupnjevi[1].checked) {rjesenje = (rjesenje * 180) / PI}
+				}
+				else if (zarez >= 14 && zarez <= 16) {
+					if (document.racunalo.stupnjevi[1].checked)
+					{radijani = (rjesenje / 180) * PI}
+					else
+					{radijani = rjesenje};
+
+					if (zarez == 14) {
+						document.racunalo.notes.value += "tan(" + rjesenje + ")" + enter;
+						rjesenje = tan(radijani)
+					}
+					else if (zarez == 15) {
+						document.racunalo.notes.value += "cos(" + rjesenje + ")" + enter;
+						rjesenje = cos(radijani)
+					}
+					else if (zarez == 16) {
+						document.racunalo.notes.value += "sin(" + rjesenje + ")" + enter;
+						rjesenje = sin(radijani)
+					}
+				}
+				else if (zarez == 17) {
+					document.racunalo.notes.value += rjesenje + "%" + enter;
+					rjesenje = rjesenje/100
+				}
+				else if (zarez == 18) {
+					document.racunalo.notes.value += rjesenje + "ppm" + enter;
+					rjesenje = rjesenje/1000000
+				}
+				else if (zarez == 20) {
+					document.racunalo.notes.value += rjesenje + "!" + enter;
+					rjesenje = factorial(rjesenje)
+				}
+				else if (zarez == 21) {
+					eksponent = prompt("请输入指数", 3);
+					document.racunalo.notes.value += rjesenje + "^" + eksponent + enter;
+					rjesenje = pow(rjesenje, eksponent)
+				}
+				else if (zarez == 22) {
+					eksponent = prompt("请输入根", 3);
+					document.racunalo.notes.value += rjesenje + "^(1/" + eksponent + ")" + enter;
+					rjesenje = pow(rjesenje, (1/eksponent))
+				}
+				return rjesenje
+			}
+		}
+
+
+		function zaokruzi(ebroj) {
+
+			decimala=parseFloat(document.racunalo.izaZareza.options[document.racunalo.izaZareza.selectedIndex].value);
+			var strbroj = ebroj + " ";
+			if (strbroj.charAt(0) == ".") {strbroj = "0" + strbroj};
+			var intbroj = strbroj.length - 1;
+			deczarez(strbroj);
+
+			if (intbroj > 16 && eksp == -1) {
+				if (decimala == -1) {decimala = 14};
+				strbroj = izazareza(strbroj.substring(0,intbroj)) + " ";
+				intbroj = strbroj.length - 1;
+				deczarez(strbroj)
+			}
+
+			if (decimala >= 0 && decimala != 14) {
+				if (tocka > 0) {
+					var odgovor = izazareza(strbroj.substring(0,intbroj))
+				}
+				else {
+					ebroj = strbroj.substring(0,intbroj);
+					if (decimala > 0) {
+						ebroj += ".";
+						for (var n = 0; n < decimala; n++) {
+							ebroj += "0"
+						}
+					}
+					var odgovor = ebroj
+				}
+			}
+			else {
+				decimala = 14;
+				var odgovor = izazareza(strbroj)
+			}
+
+			if (odgovor.charAt(0) == ".") {odgovor = "0" + odgovor};
+
+			document.racunalo.rezultat.value = odgovor;
+			document.racunalo.notes.value += " = " + odgovor + enter;
+		}
+
+
+		function deczarez(novibroj) {
+			tocka = 0;
+			eksp = 0;
+
+			tocka = novibroj.indexOf(".");
+			eksp = novibroj.indexOf("e")
+		}
+
+
+		function izazareza(novibroj) {
+			with (Math) {
+
+				if (eksp == -1) {
+					var duzina = tocka;
+					if (duzina == -1) {duzina = novibroj.length};
+					var desni = "";
+
+					if (duzina > 16) {
+						var privremeni = round(novibroj*pow(10, 18)) + " ";
+						var novie = privremeni.indexOf("e");
+						var lijevi = (privremeni.substring(0,novie));
+
+						lijevi = round(lijevi*pow(10, 15))/pow(10, 15) + " ";
+						desni = (privremeni.substring(novie+2,privremeni.length-1));
+						desni = "e+" + (desni-18)
+					}
+					else {
+						var lijevi = round(novibroj*pow(10, decimala))/pow(10, decimala) + " "
+					}
+				}
+				else {
+					var lijevi = novibroj.substring(0,eksp);
+					var desni = novibroj.substring(eksp,novibroj.length);
+
+					lijevi = round(lijevi*pow(10, decimala))/pow(10, decimala) + " "
+				}
+
+				lijevi = lijevi.substring(0,lijevi.length - 1);
+
+				if (lijevi.charAt(0) == ".") {lijevi = "0" + lijevi};
+
+				if (decimala < 14) {
+					if (lijevi.indexOf(".") == -1 && decimala != 0) {lijevi += "."};
+					var nula = (tocka + decimala) - (lijevi.length - 1);
+					if (nula > 0 && decimala > 0) {
+						for (var n = 0; n < nula; n++) {
+							lijevi += "0"
+						}
+					}
+				}
+
+				return (lijevi + " " + desni)
+			}
+		}
+
+
+		function factorial(n) {
+			if ((n == 0) || (n == 1)) {
+				return 1
+			}
+			else {
+				var odgovor = (n * factorial(n-1));
+				return odgovor
+			}
+		}
+
+
+		function masa(atom) {
+			with (Math) {
+				var atominfo = false
+				var mm=""
+				var mmdn=""
+				var mmup=""
+				var znak=""
+				var izraz=""
+				var H=1.00794
+				var He=4.002602
+				var Li=6.941
+				var Be=9.012182
+				var B=10.811
+				var C=12.0107
+				var N=14.0067
+				var O=15.9994
+				var F=18.9984032
+				var Ne=20.1797
+				var Na=22.98977
+				var Mg=24.305
+				var Al=26.981538
+				var Si=28.0855
+				var P=30.973761
+				var S=32.065
+				var Cl=35.453
+				var Ar=39.948
+				var K=39.0983
+				var Ca=40.078
+				var Sc=44.95591
+				var Ti=47.867
+				var V=50.9415
+				var Cr=51.9961
+				var Mn=54.938049
+				var Fe=55.845
+				var Co=58.9332
+				var Ni=58.6934
+				var Cu=63.546
+				var Zn=65.39
+				var Ga=69.723
+				var Ge=72.64
+				var As=74.9216
+				var Se=78.96
+				var Br=79.904
+				var Kr=83.8
+				var Rb=85.4678
+				var Sr=87.62
+				var Y=88.90585
+				var Zr=91.224
+				var Nb=92.90638
+				var Mo=95.94
+				var Tc=98
+				var Ru=101.07
+				var Rh=102.9055
+				var Pd=106.42
+				var Ag=107.8682
+				var Cd=112.411
+				var In=114.818
+				var Sn=118.71
+				var Sb=121.76
+				var Te=127.6
+				var I=126.90447
+				var Xe=131.293
+				var Cs=132.90545
+				var Ba=137.327
+				var La=138.9055
+				var Ce=140.116
+				var Pr=140.90765
+				var Nd=144.24
+				var Pm=145
+				var Sm=150.36
+				var Eu=151.964
+				var Gd=157.25
+				var Tb=158.92534
+				var Dy=162.5
+				var Ho=164.93032
+				var Er=167.259
+				var Tm=168.93421
+				var Yb=173.04
+				var Lu=174.967
+				var Hf=178.49
+				var Ta=180.9479
+				var W=183.84
+				var Re=186.207
+				var Os=190.23
+				var Ir=192.217
+				var Pt=195.078
+				var Au=196.96655
+				var Hg=200.59
+				var Tl=204.3833
+				var Pb=207.2
+				var Bi=208.98038
+				var Po=209
+				var At=210
+				var Rn=222
+				var Fr=223
+				var Ra=226
+				var Ac=227
+				var Th=232.0381
+				var Pa=231.03588
+				var U=238.02891
+				var Np=237
+				var Pu=244
+				var Am=243
+				var Cm=247
+				var Bk=247
+				var Cf=251
+				var Es=252
+				var Fm=257
+				var Md=258
+				var No=259
+				var Lr=262
+				var Pi=3.141592653589793;
+
+				for (var i=0; i<atom.length; i++) {
+					mm = atom.charAt(i)
+					mmup = atom.charAt(i+1)
+					bigup=mm.toUpperCase()
+					mmdn = atom.charAt(i-1);
+
+					if (mm == "[") {mm = "("}
+					else if (mm == "]") {mm = ")"}
+					else if (mm == ",") {mm = "."}
+
+					if (slovo(mm)) {atominfo = true};
+					if (matoperator(mm)) {atominfo = false; znak=""};
+					if (atominfo) {
+						if (matoperator(mmup)) {znak=")"}
+						if (matoperator(mmdn)) {izraz += "(" + mm + znak}
+						else if (mmdn=="(") {izraz += mm + znak}
+						else if (mmdn=="[") {izraz += mm + znak}
+						else if (slovo(mm)) {izraz += "+" + mm + znak}
+						else if (BrojAtoma(mmdn)) {izraz += mm + znak}
+						else if (BrojAtoma(mm)) {izraz += "*" + mm + znak}
+						else {izraz += mm + znak}
+					}
+					else {izraz += mm}
+				}
+				odgovor = eval(izraz);
+				return odgovor
+			}
+		}
+
+
+		function slovo(znak) {
+			var slovo="(ABCDEFGHIKLMNOPRSTUVWXYZ";
+			for (var i=0; i<slovo.length; i++)
+				if (znak == slovo.charAt(i)) {return true} {return false}
+		}
+
+
+		function matoperator(znak) {
+			var matoperator="*/+-";
+			for (var i=0; i<matoperator.length; i++)
+				if (znak == matoperator.charAt(i)) {return true}
+			if (znak == "") {return true}
+			if (znak == null) {return true}
+			return false
+		}
+
+		function operator(znak) {
+			var matoperator="*/+-";
+			for (var i=0; i<matoperator.length; i++)
+				if (znak == matoperator.charAt(i)) {return true}
+			return false
+		}
+
+		function ubacirezultat(znak) {
+			var ubacirezultat="*/+";
+			for (var i=0; i<ubacirezultat.length; i++)
+				if (znak == ubacirezultat.charAt(i)) {return true}
+			return false
+		}
+
+		function BrojAtoma(znak)
+		{	var atom = "1234567890";
+			for (var i=0; i<atom.length; i++)
+				if (znak == atom.charAt(i)) {return true} {return false}
+		}
+
+		function Slika(adresa) {
+			window.opener.location=adresa
+		}
+
+		function MenuBotun(adresa) {
+			if (MenuWin.open) {
+				MenuWin.document.daljinski.elementi.focus()
+			}
+			else {
+				MenuWin = window.open(abc + adresa, "_blank", "width=110,height=270,toolbar=0,directories=0,resizable=1,scrollbars=0");
+				MenuWin.creator = self;
+				MenuOpen = 1
+			}
+		}
+
+		function CalcBotun(adresa) {
+			if (CalcWin.open) {
+				CalcWin.document.racunalo.zadatak.focus()
+			}
+			else {
+				CalcWin = window.open(abc + adresa, "_blank", "width=308,height=425,toolbar=0,directories=0,resizable=1,scrollbars=0");
+				CalcWin.creator = self;
+				CalcOpen = 1
+			}
+		}
+
+		function NoviElement(noviznak) {
+			var greska = 0;
+			noviznak = noviznak.toLowerCase()
+
+			if (noviznak == "h" || noviznak == "hydrogen" || noviznak == "1") {element="h"}
+			else if (noviznak == "he" || noviznak == "helium" || noviznak == "2") {element="he"}
+			else if (noviznak == "li" || noviznak == "lithium" || noviznak == "3") {element="li"}
+			else if (noviznak == "be" || noviznak == "beryllium" || noviznak == "4") {element="be"}
+			else if (noviznak == "b" || noviznak == "boron" || noviznak == "5") {element="b"}
+			else if (noviznak == "c" || noviznak == "carbon" || noviznak == "6") {element="c"}
+			else if (noviznak == "n" || noviznak == "nitrogen" || noviznak == "7") {element="n"}
+			else if (noviznak == "o" || noviznak == "oxygen" || noviznak == "8") {element="o"}
+			else if (noviznak == "f" || noviznak == "fluorine" || noviznak == "9") {element="f"}
+			else if (noviznak == "ne" || noviznak == "neon" || noviznak == "10") {element="ne"}
+			else if (noviznak == "na" || noviznak == "sodium" || noviznak == "11") {element="na"}
+			else if (noviznak == "mg" || noviznak == "magnesium" || noviznak == "12") {element="mg"}
+			else if (noviznak == "al" || noviznak == "aluminium" || noviznak == "13") {element="al"}
+			else if (noviznak == "si" || noviznak == "silicon" || noviznak == "14") {element="si"}
+			else if (noviznak == "p" || noviznak == "phosphorus" || noviznak == "15") {element="p"}
+			else if (noviznak == "s" || noviznak == "sulfur" || noviznak == "16") {element="s"}
+			else if (noviznak == "cl" || noviznak == "chlorine" || noviznak == "17") {element="cl"}
+			else if (noviznak == "ar" || noviznak == "argon" || noviznak == "18") {element="ar"}
+			else if (noviznak == "k" || noviznak == "potassium" || noviznak == "19") {element="k"}
+			else if (noviznak == "ca" || noviznak == "calcium" || noviznak == "20") {element="ca"}
+			else if (noviznak == "sc" || noviznak == "scandium" || noviznak == "21") {element="sc"}
+			else if (noviznak == "ti" || noviznak == "titanium" || noviznak == "22") {element="ti"}
+			else if (noviznak == "v" || noviznak == "vanadium" || noviznak == "23") {element="v"}
+			else if (noviznak == "cr" || noviznak == "chromium" || noviznak == "24") {element="cr"}
+			else if (noviznak == "mn" || noviznak == "manganese" || noviznak == "25") {element="mn"}
+			else if (noviznak == "fe" || noviznak == "iron" || noviznak == "26") {element="fe"}
+			else if (noviznak == "co" || noviznak == "cobalt" || noviznak == "27") {element="co"}
+			else if (noviznak == "ni" || noviznak == "nickel" || noviznak == "28") {element="ni"}
+			else if (noviznak == "cu" || noviznak == "copper" || noviznak == "29") {element="cu"}
+			else if (noviznak == "zn" || noviznak == "zinc" || noviznak == "30") {element="zn"}
+			else if (noviznak == "ga" || noviznak == "gallium" || noviznak == "31") {element="ga"}
+			else if (noviznak == "ge" || noviznak == "germanium" || noviznak == "32") {element="ge"}
+			else if (noviznak == "as" || noviznak == "arsenic" || noviznak == "33") {element="as"}
+			else if (noviznak == "se" || noviznak == "selenium" || noviznak == "34") {element="se"}
+			else if (noviznak == "br" || noviznak == "bromine" || noviznak == "35") {element="br"}
+			else if (noviznak == "kr" || noviznak == "krypton" || noviznak == "36") {element="kr"}
+			else if (noviznak == "rb" || noviznak == "rubidium" || noviznak == "37") {element="rb"}
+			else if (noviznak == "sr" || noviznak == "strontium" || noviznak == "38") {element="sr"}
+			else if (noviznak == "y" || noviznak == "yttrium" || noviznak == "39") {element="y"}
+			else if (noviznak == "zr" || noviznak == "zirconium" || noviznak == "40") {element="zr"}
+			else if (noviznak == "nb" || noviznak == "niobium" || noviznak == "41") {element="nb"}
+			else if (noviznak == "mo" || noviznak == "molybdenum" || noviznak == "42") {element="mo"}
+			else if (noviznak == "tc" || noviznak == "technetium" || noviznak == "43") {element="tc"}
+			else if (noviznak == "ru" || noviznak == "ruthenium" || noviznak == "44") {element="ru"}
+			else if (noviznak == "rh" || noviznak == "rhodium" || noviznak == "45") {element="rh"}
+			else if (noviznak == "pd" || noviznak == "palladium" || noviznak == "46") {element="pd"}
+			else if (noviznak == "ag" || noviznak == "silver" || noviznak == "47") {element="ag"}
+			else if (noviznak == "cd" || noviznak == "cadmium" || noviznak == "48") {element="cd"}
+			else if (noviznak == "in" || noviznak == "indium" || noviznak == "49") {element="in"}
+			else if (noviznak == "sn" || noviznak == "tin" || noviznak == "50") {element="sn"}
+			else if (noviznak == "sb" || noviznak == "antimony" || noviznak == "51") {element="sb"}
+			else if (noviznak == "te" || noviznak == "tellurium" || noviznak == "52") {element="te"}
+			else if (noviznak == "i" || noviznak == "iodine" || noviznak == "53") {element="i"}
+			else if (noviznak == "xe" || noviznak == "xenon" || noviznak == "54") {element="xe"}
+			else if (noviznak == "cs" || noviznak == "cesium" || noviznak == "55") {element="cs"}
+			else if (noviznak == "ba" || noviznak == "barium" || noviznak == "56") {element="ba"}
+			else if (noviznak == "la" || noviznak == "lanthanum" || noviznak == "57") {element="la"}
+			else if (noviznak == "ce" || noviznak == "cerium" || noviznak == "58") {element="ce"}
+			else if (noviznak == "pr" || noviznak == "praseodymium" || noviznak == "59") {element="pr"}
+			else if (noviznak == "nd" || noviznak == "neodymium" || noviznak == "60") {element="nd"}
+			else if (noviznak == "pm" || noviznak == "promethium" || noviznak == "61") {element="pm"}
+			else if (noviznak == "sm" || noviznak == "samarium" || noviznak == "62") {element="sm"}
+			else if (noviznak == "eu" || noviznak == "europium" || noviznak == "63") {element="eu"}
+			else if (noviznak == "gd" || noviznak == "gadolinium" || noviznak == "64") {element="gd"}
+			else if (noviznak == "tb" || noviznak == "terbium" || noviznak == "65") {element="tb"}
+			else if (noviznak == "dy" || noviznak == "dysprosium" || noviznak == "66") {element="dy"}
+			else if (noviznak == "ho" || noviznak == "holmium" || noviznak == "67") {element="ho"}
+			else if (noviznak == "er" || noviznak == "erbium" || noviznak == "68") {element="er"}
+			else if (noviznak == "tm" || noviznak == "thulium" || noviznak == "69") {element="tm"}
+			else if (noviznak == "yb" || noviznak == "ytterbium" || noviznak == "70") {element="yb"}
+			else if (noviznak == "lu" || noviznak == "lutetium" || noviznak == "71") {element="lu"}
+			else if (noviznak == "hf" || noviznak == "hafnium" || noviznak == "72") {element="hf"}
+			else if (noviznak == "ta" || noviznak == "tantalum" || noviznak == "73") {element="ta"}
+			else if (noviznak == "w" || noviznak == "tungsten" || noviznak == "74") {element="w"}
+			else if (noviznak == "re" || noviznak == "rhenium" || noviznak == "75") {element="re"}
+			else if (noviznak == "os" || noviznak == "osmium" || noviznak == "76") {element="os"}
+			else if (noviznak == "ir" || noviznak == "iridium" || noviznak == "77") {element="ir"}
+			else if (noviznak == "pt" || noviznak == "platinum" || noviznak == "78") {element="pt"}
+			else if (noviznak == "au" || noviznak == "gold" || noviznak == "79") {element="au"}
+			else if (noviznak == "hg" || noviznak == "mercury" || noviznak == "80") {element="hg"}
+			else if (noviznak == "tl" || noviznak == "thallium" || noviznak == "81") {element="tl"}
+			else if (noviznak == "pb" || noviznak == "lead" || noviznak == "82") {element="pb"}
+			else if (noviznak == "bi" || noviznak == "bismuth" || noviznak == "83") {element="bi"}
+			else if (noviznak == "po" || noviznak == "polonium" || noviznak == "84") {element="po"}
+			else if (noviznak == "at" || noviznak == "astatine" || noviznak == "85") {element="at"}
+			else if (noviznak == "rn" || noviznak == "radon" || noviznak == "86") {element="rn"}
+			else if (noviznak == "fr" || noviznak == "francium" || noviznak == "87") {element="fr"}
+			else if (noviznak == "ra" || noviznak == "radium" || noviznak == "88") {element="ra"}
+			else if (noviznak == "ac" || noviznak == "actinium" || noviznak == "89") {element="ac"}
+			else if (noviznak == "th" || noviznak == "thorium" || noviznak == "90") {element="th"}
+			else if (noviznak == "pa" || noviznak == "protactinium" || noviznak == "91") {element="pa"}
+			else if (noviznak == "u" || noviznak == "uranium" || noviznak == "92") {element="u"}
+			else if (noviznak == "np" || noviznak == "neptunium" || noviznak == "93") {element="np"}
+			else if (noviznak == "pu" || noviznak == "plutonium" || noviznak == "94") {element="pu"}
+			else if (noviznak == "am" || noviznak == "americium" || noviznak == "95") {element="am"}
+			else if (noviznak == "cm" || noviznak == "curium" || noviznak == "96") {element="cm"}
+			else if (noviznak == "bk" || noviznak == "berkelium" || noviznak == "97") {element="bk"}
+			else if (noviznak == "cf" || noviznak == "californium" || noviznak == "98") {element="cf"}
+			else if (noviznak == "es" || noviznak == "einsteinium" || noviznak == "99") {element="es"}
+			else if (noviznak == "fm" || noviznak == "fermium" || noviznak == "100") {element="fm"}
+			else if (noviznak == "md" || noviznak == "mendelevium" || noviznak == "101") {element="md"}
+			else if (noviznak == "no" || noviznak == "nobelium" || noviznak == "102") {element="no"}
+			else if (noviznak == "lr" || noviznak == "lawrencium" || noviznak == "103") {element="lr"}
+			else if (noviznak == "rf" || noviznak == "rutherfordium" || noviznak == "104") {element="rf"}
+			else if (noviznak == "db" || noviznak == "dubnium" || noviznak == "105") {element="db"}
+			else if (noviznak == "sg" || noviznak == "seaborgium" || noviznak == "106") {element="sg"}
+			else if (noviznak == "bh" || noviznak == "bohrium" || noviznak == "107") {element="bh"}
+			else if (noviznak == "hs" || noviznak == "hassium" || noviznak == "108") {element="hs"}
+			else if (noviznak == "mt" || noviznak == "meitnerium" || noviznak == "109") {element="mt"}
+			else if (noviznak == "uun" || noviznak == "ununnilium" || noviznak == "110") {element="uun"}
+			else if (noviznak == "uuu" || noviznak == "unununium" || noviznak == "111") {element="uuu"}
+			else if (noviznak == "uub" || noviznak == "ununbium" || noviznak == "112") {element="uub"}
+			else if (noviznak == "uuq" || noviznak == "ununquadium" || noviznak == "114") {element="uuq"}
+			else if (noviznak == "") {greska=1}
+				else {
+					window.alert("Input ELEMENT SYMBOL, ATOMIC NUMBER or NAMES OF ELEMENTS!");
+					greska = 1
+				}
+
+			if (greska == 0) {MainWin = window.open(abc + element + ".html", "_self")}
+		}
+
+
+
+		function uaredirect(f) {
+			try {
+				if (document.getElementById("bdmark") != null) {
+					return
+				}
+				var b = false;
+				if (arguments[1]) {
+					var e = window.location.host;
+					var a = window.location.href;
+					if (isSubdomain(arguments[1], e) == 1) {
+						f = f + "/#m/" + a;
+						b = true
+					} else {
+						if (isSubdomain(arguments[1], e) == 2) {
+							f = f + "/#m/" + a;
+							b = true
+						} else {
+							f = a;
+							b = false
+						}
+					}
+				} else {
+					b = true
+				}
+				if (b) {
+					var c = window.location.hash;
+					if (!c.match("fromapp")) {
+						if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i))) {
+							location.replace(f)
+						}
+					}
+				}
+			} catch(d) {}
+		}
+		function isSubdomain(c, d) {
+			this.getdomain = function(f) {
+				var e = f.indexOf("://");
+				if (e > 0) {
+					var h = f.substr(e + 3)
+				} else {
+					var h = f
+				}
+				var g = /^www./;
+				if (g.test(h)) {
+					h = h.substr(4)
+				}
+				return h
+			};
+			if (c == d) {
+				return 1
+			} else {
+				var c = this.getdomain(c);
+				var b = this.getdomain(d);
+				if (c == b) {
+					return 1
+				} else {
+					c = c.replace(".", ".");
+					var a = new RegExp("." + c + "$");
+					if (b.match(a)) {
+						return 2
+					} else {
+						return 0
+					}
+				}
+			}
+		};
+
+
+	</script>
+
+	<style>
+		*{padding: 0;margin: 0;}
+
+
+		.main-layout{width: 990px;margin: 10px auto;}
+
+		.left-layout{float: left;width: 240px;}
+
+		.left-layout .box0{float: left;background: #FFFFFF;font-size:12px;}
+		.left-layout .box1{float: left;background: margin-top: 15px; #FFFFFF;font-size:12px;}
+		.left-layout .box2{float: left;background: margin-top: 15px; #FFFFFF;font-size:12px;}
+		.left-layout .box3{float: left;background: margin-top: 15px; #FFFFFF;font-size:50px;}
+		.box3{float: left;background: margin-top: 15px; #FFFFFF;font-size:12px; word-wrap:break-word;word-break:normal; width: 520px;}
+		.center-layout{width: 520px;float: left;margin-left: 20px;}
+		.center-layout .box0{float: left;background: #C0C0C0;font-size:12px;}
+		.center-layout .box1{float: left;background: #CCFE67;margin-top: 15px;}
+		.center-layout .box2{float: left;background: margin-top: 15px;}
+
+
+		.center-layout .box0{float: left;padding-left:10px;}
+		.right-layout{float: left;width: 170px;margin-left: 20px;}
+		.right-layout .box0{float: left;background: #FECCFF;}
+		.right-layout .box1{float: left;background: #9A6600;margin-top: 15px;}
+		.right-layout .box2{float: left;background: #009900;margin-top: 15px;}
+
+		.r-ad{float:left;width:100%;height: auto;min-height: 200px;background: #fff;text-align: center;}
+		.footer{width:100%;height:auto;float:left;margin-top: 10px;
+			text-align: center;font-size: 12px;
+			border-top:1px solid #AACCEE;
+			PADDING:10PX 0PX;
+			background: #f7f7f7;}
+
+		hcfy-result.__hcfy__result__loaded__.__hcfy__result__both__{border: 1px dotted}</style>
+</head>
+
+<body>
+<div class="main-layout">
+	<div class="center-layout">
+		<div class="box0" cellpadding="22" style="float:left;margin-top:10px;">
+			<p> 科学计算器在线使用</p>
+
+			<p>使用在线计算器可进行加减乘除,根号开方,圆周率,倒数,正弦,余弦（COS）智能算术计算。另有解方程练习题,重量单位,分数,时间,如果输入同一数字符号请不要操做太快，以免出错。</p><p> </p></div>
+		<div class="box1">
+			<table width="500" align="left">
+				<tbody>
+				<tr>
+					<td>
+						<font color="#FF0000" size="4">这个计算器有些慢,您若要快速输入数字请用</font><font size="4" color="#0000FF">→</font><a style="text-decoration: none; font-weight: 700" target="_blank" href="http://www.ab126.com/shuxue/1696.html"><font size="4" color="#0000FF">快速计算器</font></a>
+
+						<form name="racunalo" style="text-indent: -8"><input type="hidden" name="oldrezultat" value="27657"> <input type="hidden" name="memorija">
+
+
+							<table class="borderall" align="center">
+								<tbody>
+								<tr>
+									<td valign="top" align="right" width="285">
+
+										<table class="border" width="301" align="center">
+											<tbody>
+											<tr>
+												<td width="295">
+													<font face="verdana" size="2">运算区</font></td></tr>
+											<tr>
+												<td valign="center" align="middle">
+
+													<table width="100%" border="1" cellspacing="0">
+														<tbody>
+														<tr>
+															<td align="middle" width="100%" bgcolor="#FF0000">
+																<input style="WIDTH: 260px; HEIGHT: 30px; FONT-FACE: verdana" onfocus="display(document.racunalo.rezultat.value)" size="14" name="rezultat"><font size="2"> </font> </td></tr></tbody></table>
+													<table border="1">
+														<tbody>
+														<tr>
+															<td valign="center" align="middle" colspan="6" bgcolor="#993333" height="57">
+																<font color="#FFFFFF"><select onchange="if (document.racunalo.oldrezultat.value != &#39;&#39;) {zaokruzi(document.racunalo.oldrezultat.value)}; document.racunalo.zadatak.focus()" size="1" name="izaZareza">
+																	<option value="-1">选择小数点位数</option>
+																	<option value="0">0</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4">4</option>
+																	<option value="5" selected="selected">5</option>
+																	<option value="6">6</option>
+																	<option value="7">7</option>
+																	<option value="8">8</option>
+																	<option value="9">9</option>
+																	<option value="10">
+																	10</option>
+																	<option value="11">11</option> <option value="12">12</option> <option value="13">13</option> <option value="14">14</option> <option value="15">15</option>
+																</select><font size="2">
+																</font> </font>
+																<font color="#FFFFFF" face="verdana" size="2"><input title="弧度" onclick="document.racunalo.zadatak.focus()" type="radio" name="stupnjevi"></font><a onmouseover="self.status=&#39;Radians&#39;; return true" title="Radians" href="javascript:document.racunalo.stupnjevi[0].click()"><font face="verdana" color="#FFFFFF" size="2">Rad</font></a><font face="Arial" color="#FFFFFF" size="2"> 弧度<input title="Stupnjevi" onclick="document.racunalo.zadatak.focus()" type="radio" checked="" name="stupnjevi"></font><a onmouseover="self.status=&#39;Degrees&#39;; return true" title="度" href="javascript:document.racunalo.stupnjevi[1].click()"><font face="verdana" color="#FFFFFF" size="2">Deg度</font></a><font color="#FFFFFF" size="2">
+																&nbsp;&nbsp;</font><font size="2">
+															</font>
+																<font color="#FFFFFF" size="2"></font></td></tr>
+														<tr>
+															<td colspan="6" bgcolor="#993333"></td></tr>
+														<tr>
+															<td valign="center" align="middle" width="100%" colspan="6" bgcolor="#993333">
+																<font color="#FFFFFF" face="verdana" size="3"><input onkeydown="if (event.keyCode==13) {enter.click()}" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; WIDTH: 260px; HEIGHT: 25px" onchange="enter.click()" size="17" name="zadatak"></font><font color="#FFFFFF" face="verdana" size="2">
+															</font></td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input title="平方根" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(3)" type="button" value="√" name="sqrt" width="38" height="28">  <font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input title="N次方根" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px; text-indent:-3" onclick="izracunaj(22)" type="button" value="n次方" name="root" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="自然对数" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(5)" type="button" value="ln" name="ln" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="常用对数" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(8)" type="button" value="log" name="log" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="正切" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(14)" type="button" value="tan" name="tan" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="反正切" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(10)" type="button" value="atan" name="atan" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="平方" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(2)" type="button" value="x^2" name="kvadrat" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="乘方或几次幂" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(21)" type="button" value="x^y" name="potencija" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="自然反对数" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(6)" type="button" value="e^x" name="aln" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="常用反对数" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(9)" type="button" value="10^x" name="alog" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="余弦" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(15)" type="button" value="cos" name="cos" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input title="反余弦" style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(11)" type="button" value="acos" name="acos" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="正负号变换" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(4)" type="button" value="+/-" name="sign" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(7)" type="button" value="1/x" name="1/x" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="阶乘" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(20)" type="button" value="x!" name="fact" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="百分比" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(17)" type="button" value="%" name="postotak" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="正弦" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(16)" type="button" value="sin" name="sin" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="反正弦" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 28px" onclick="izracunaj(12)" type="button" value="asin" name="asin" width="38" height="28"><font size="2">
+															</font>
+															</font>
+															</td></tr>
+														<tr>
+															<td colspan="6" bgcolor="#993333"></td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(7)" type="button" value="7" name="7" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(8)" type="button" value="8" name="8" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(9)" type="button" value="9" name="9" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;/&#39;)" type="button" value="÷" name="djeljeno" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="记忆输出" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="memory(2)" type="button" value="MR" name="MR" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input title="记忆储存" style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="memory(1); return false;" type="button" value="MS" name="MS" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(4)" type="button" value="4" name="4" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(5)" type="button" value="5" name="5" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(6)" type="button" value="6" name="6" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;*&#39;)" type="button" value="×" name="puta" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td colspan="2" bgcolor="#993333">
+																<input title="Clear screen" style="FONT-SIZE: 10pt; BACKGROUND: #FF9933; WIDTH: 81; COLOR: #FFFFFF; HEIGHT: 25; FONT-FACE: verdana" onclick="memory(3)" type="button" value="清除 重算" name="Cls"><font size="2" color="#FFFFFF">
+															</font>
+															</td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(1)" type="button" value="1" name="1" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(2)" type="button" value="2" name="2" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(3)" type="button" value="3" name="3" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;-&#39;)" type="button" value="-" name="minus" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;(&#39;)" type="button" value="(" name="lijevo" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;)&#39;)" type="button" value=")" name="desno" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td></tr>
+														<tr>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(0)" type="button" value="0" name="0" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;.&#39;)" type="button" value="." name="." width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF"><input style="FONT-SIZE: 10pt; BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;e&#39;)" type="button" value="E" name="exp" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td bgcolor="#993333"><font color="#FFFFFF">
+																<input style="BACKGROUND: #cdcdcd; WIDTH: 38px; HEIGHT: 32px" onclick="dodajBroj(&#39;+&#39;)" type="button" value="+" name="plus" width="38" height="32"><font size="2">
+															</font>
+															</font>
+															</td>
+															<td colspan="2" bgcolor="#993333">
+																<font color="#FFFFFF">
+																	<input style="BACKGROUND: #cdcdcd; WIDTH: 83px; HEIGHT: 32px" onclick="izracunaj(1)" type="button" value="=" name="enter" width="82" height="32"><font size="2">
+																</font>
+																</font>
+															</td></tr></tbody></table></td></tr></tbody></table>
+									</td><td valign="top" align="middle">
+									<table width="75%">
+										<tbody>
+										<tr>
+											<td colspan="3" height="16">
+												<font face="verdana" size="2">运算结果记忆区</font></td></tr>
+										<tr>
+											<td colspan="3"><font color="#0000ff" size="3">
+												<textarea style="FONT-WEIGHT: normal; FONT-SIZE: 10pt; WIDTH: 179; HEIGHT: 397; FONT-FACE: verdana; background-color:#CCCCFF" name="notes" rows="25" cols="25"></textarea></font><font color="#0000ff" size="2">
+											</font></td></tr>
+										<tr>
+											<td align="middle" colspan="3">
+												<input title="Clear Form" style="FONT-SIZE: 10pt; BACKGROUND: gray; WIDTH: 75px; COLOR: white; HEIGHT: 24px" onclick="memory(4)" type="button" value="清除" name="clear" width="72" height="24"><font size="2">
+											</font>
+											</td></tr></tbody></table></td></tr></tbody></table></form></td></tr></tbody></table>&nbsp;&nbsp;&nbsp;
+		</div>
+	</div>
+</div>
+</body>
+<div style="all: initial;"><div id="__hcfy__" style="all: initial;"></div></div><div style="all: initial;"><div style="all: initial;"></div></div></html>

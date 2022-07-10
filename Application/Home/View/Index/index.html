@@ -1,0 +1,271 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<title>简单网址导航</title>
+</head>
+<body id="by">
+<div id="switcher">{$famousWord}</div>
+<style>
+	@charset "utf-8";
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
+	body{line-height:1}
+	ol, ul{list-style:none}
+	blockquote, q{quotes:none}
+	blockquote:before, blockquote:after, q:before, q:after{content:'';content:none}
+	:focus{outline:0}
+	ins{text-decoration:none}
+	del{text-decoration:line-through}
+	table{border-collapse:collapse;border-spacing:0}
+	a{text-decoration:none;color:#fff}
+	body{font-family:"Kreon";font-weight:300;color:#333;background:#fff;}
+
+	#switcher{padding-top: 8px;font-size: 24px;color: white;text-align: center;height:38px;z-index:99999;position:fixed;width:100%;top:0;background:#000;}
+
+	.tablet-width iframe{height:960px!important}
+	.mobile-width iframe{height:704px!important}
+	.mobile-width-2 iframe{height:416px!important}
+	.mobile-width-3 iframe{height:256px!important}
+	#by{overflow-y:hidden}
+
+	/* CSS Document */
+	body{margin: 0px; background-repeat:repeat-x; font-size:14px;}
+	img{border:none;}
+	form{margin:0px;}
+	.clear{clear: both; height:0px; margin:0px; overflow:hidden;}
+
+	/* 链接 */
+	A:link{color:#000000; text-decoration:none;}
+	A:hover{color:#BC2931; text-decoration:underline;}
+	A:visited{color:#000000; text-decoration:none;}
+	A:active{color:#BC2931; text-decoration:underline;}
+
+	.list{width:948px; margin-left:auto; margin-right:auto; background-color:#F7F7F7; height:auto; border:1px solid #CECECE; border-top:1px solid #E6E6E6; background-repeat:repeat-x;}
+	.line{width:946px; margin-left:auto; margin-right:auto; background-color:#E6E6E6; height:2px; overflow:hidden;}
+
+	.webtype{width:85px; height:46px; line-height:46px; font-weight:bold; text-align:center; float:left; color:#333333; overflow:hidden;}
+
+	.weblink_menhu{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_wenxue{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_youxi{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_xiazai{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left;  background-repeat:no-repeat;}
+	.weblink_junshi{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_shipin{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left;  background-repeat:no-repeat;}
+	.weblink_yinyue{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left;  background-repeat:no-repeat;}
+	.weblink_shequ{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left;  background-repeat:no-repeat;}
+	.weblink_jiaoyou{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_caijing{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_gouwu{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_boke{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left;background-repeat:no-repeat;}
+	.weblink_yingjian{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+	.weblink_zhaopin{height:38px; line-height:38px; margin:3px 7px 0px 0px; padding:0px 6px 0px 0px; border:1px solid #E6E6E6;  float:left; background-repeat:no-repeat;}
+</style>
+
+<div class="list">
+	<div class="webtype">顶楼。。</div>
+	<div class="clear"></div>
+</div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">常用功能</div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px 0px;"><a href="/index.php?s=/home/tools/habitStickToIt">习惯散点图</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -38px;"><a href="/index.php?s=/home/tools/pathReversal">路径斜杠反转</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -76px;"><a href="/index.php?s=/home/tools/tnbr_xttz_jc">血糖体重监测记录表</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -114px;"><a href="/index.php?s=/home/tools/calculator" target="_blank">计算器</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.baidu.com/" target="_blank">百度</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -152px;"><a href="https://map.baidu.com/" target="_blank">地图</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.ifeng.com/">凤凰网</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.xinhuanet.com/">新华网</a></div>
+		<if condition="!empty($userInfo)">
+			<div class="weblink_menhu" style="padding-left:3px; background-position:0px -266px;"><a href="/index.php?s=/home/user/loginOut">退出登录</a></div>
+		</if>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">常用网站</div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.sina.com.cn/">新浪</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.qq.com/">腾讯</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.sohu.com/">搜狐</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.163.com/">网易</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.cctv.com/">央视国际</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.ifeng.com/">凤凰网</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.xinhuanet.com/">新华网</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -266px;"><a href="http://www.people.com.cn/">人民网</a></div>
+	<div class="clear"></div>
+</div>
+<div class="list">
+	<div class="webtype">门户类：</div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.sina.com.cn/">新浪</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.qq.com/">腾讯</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.sohu.com/">搜狐</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.163.com/">网易</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.cctv.com/">央视国际</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.ifeng.com/">凤凰网</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.xinhuanet.com/">新华网</a></div>
+	<div class="weblink_menhu" style="padding-left:3px; background-position:0px -266px;"><a href="http://www.people.com.cn/">人民网</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">文学类：</div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.qidian.com/">起点中文</a></div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.readnovel.com/">小说阅读</a></div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.xxsy.net/">潇湘书院</a></div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.hongxiu.com/">红袖添香</a></div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px -152px;"><a href="http://html.hjsm.tom.com/">幻剑书盟</a></div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.zhulang.com/">逐浪文学</a></div>
+	<div class="weblink_wenxue" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.17k.com/">17K文学</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">游戏类：</div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.17173.com/">17173</a></div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.ourgame.com/">联众世界</a></div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px -76px;"><a href="http://games.sina.com.cn/">新浪游戏</a></div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.pcgames.com.cn/">太平洋游戏</a></div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.4399.net/">小游戏</a></div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.uuu9.com/">优久网</a></div>
+	<div class="weblink_youxi" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.wowchina.com/">魔兽世界</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">下载类：</div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.skycn.com/">天空</a></div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.onlinedown.net/">华军</a></div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.duote.com/">多特软件</a></div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.crsky.com/">霏凡软件</a></div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px -152px;"><a href="http://xiazai.zol.com.cn/">中关村下载</a></div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.mydrivers.com/">驱动之家</a></div>
+	<div class="weblink_xiazai" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.mydown.com/">天极下载</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">军事类：</div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.mydrivers.com/">中华军事</a></div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.mydrivers.com/">新浪军事</a></div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px -76px;"><a href="http://junshi.xilu.com/">西陆军事</a></div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.tiexue.net/">军事</a></div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px -152px;"><a href="http://mil.huanqiu.com/">军事</a></div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px -190px;"><a href="http://news.ifeng.com/mil/">凤凰军事</a></div>
+	<div class="weblink_junshi" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.dsti.net/">国防科技</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">视频类：</div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px 0px;"><a href="http://www.youku.com/">优酷网</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.tudou.com/">土豆网</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.ku6.com/">酷6网</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -114px;"><a href="http://6.cn/">六间房</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -152px;"><a href="http://video.qq.com/">QQ播客</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.joy.cn/">激动网</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -228px;"><a href="http://dl.pps.tv/">PPS网络电视</a></div>
+	<div class="weblink_shipin" style="padding-left:3px; background-position:0px -266px;"><a href="http://video.sina.com.cn/">新浪视频</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">音乐类：</div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.1ting.com/">一听音乐</a></div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.cococ.com/">可可西</a></div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -76px;"><a href="http://music.163.com/">网易云音乐</a></div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.koowo.com/">酷我音乐盒</a></div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -114px;"><a href="www.cnmusic.com/">中国音乐网</a></div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -190px;"><a href="http://qingting.fm/">蜻蜓FM</a></div>
+	<div class="weblink_yinyue" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.520music.com/">我爱音乐</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">社区类：</div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.tianya.cn/">天涯</a></div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.xici.net/">西祠</a></div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -76px;"><a href="http://tieba.baidu.com/">贴吧</a></div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -114px;"><a href="http://dzh.mop.com/">猫扑大杂烩</a></div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -152px;"><a href="http://club.sohu.com/">搜狐社区</a></div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.xiaonei.com/">校内网</a></div>
+	<div class="weblink_shequ" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.kaixin001.com/">开心网</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">交友类：</div>
+	<div class="weblink_jiaoyou" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.jiayuan.com/">世纪佳缘</a></div>
+	<div class="weblink_jiaoyou" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.baihe.com/">百合网</a></div>
+	<div class="weblink_jiaoyou" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.zhenai.com/">珍爱婚恋</a></div>
+	<div class="weblink_jiaoyou" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.ipart.cn/">爱情公寓</a></div>
+	<div class="weblink_jiaoyou" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.360quan.com/">360圈交友</a></div>
+	<div class="weblink_jiaoyou" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.myspace.cn/">聚友网</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">财经类：</div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.jrj.com.cn/">金融界</a></div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.hexun.com/">和讯网</a></div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.cnfol.com/">中金在线</a></div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.eastmoney.com/">东方财富</a></div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.ftchinese.com/">中文网</a></div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -190px;"><a href="http://cn.wsj.com/gb/">华尔街日报</a></div>
+	<div class="weblink_caijing" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.stockstar.com/">证券之星</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">购物类：</div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.taobao.com/">淘宝网</a></div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -38px;"><a href="http://china.alibaba.com/">阿里巴巴</a></div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.eachnet.com/">易趣网</a></div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -114px;"><a href="http://union.dangdang.com/transfer.php?from=P-297184-else&amp;ad_type=10&amp;sys_id=1&amp;backurl=http%3A%2F%2Fwww.dangdang.com%2F" "="">当当网</a></div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -152px;"><a href="http://p.yiqifa.com/n?k=2mLErntOWZLErI6H2mqsDEgAROoHWEK7rn3m1Ntl1ZLO6nUH2mqerI6H35MyWl4bMN6H2L--&amp;e=daohang2014&amp;spm=1.1.1.1&amp;t=http://www.jd.com/">京东商城</a></div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.paipai.com/">拍拍网</a></div>
+	<div class="weblink_gouwu" style="padding-left:3px; background-position:0px -228px;"><a href="http://p.yiqifa.com/n?k=2mLErnzLWcLErI6H2mLErntl1QLO6lwqWlbHWNKqrtBcPEyF5QqerI6H6Eg86lXy3EbH2L--&amp;e=daohang2014&amp;spm=1.1.1.1&amp;t=http://www.yhd.com">一号店</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">博客类：</div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -0px;"><a href="http://qzone.qq.com/">QQ空间</a></div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -38px;"><a href="http://blog.sina.com.cn/">新浪博客</a></div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -76px;"><a href="http://blog.163.com/">网易博客</a></div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.51.com/">51博客</a></div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -152px;"><a href="http://hi.baidu.com/">百度空间</a></div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -190px;"><a href="http://blog.sohu.com/">搜狐博客</a></div>
+	<div class="weblink_boke" style="padding-left:3px; background-position:0px -228px;"><a href="http://www.blogbus.com/">博客大巴</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">硬件类：</div>
+	<div class="weblink_yingjian" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.pconline.com.cn/">太平洋电脑网</a></div>
+	<div class="weblink_yingjian" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.zol.com.cn/">中关村在线</a></div>
+	<div class="weblink_yingjian" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.pcpop.com/">泡泡网</a></div>
+	<div class="weblink_yingjian" style="padding-left:3px; background-position:0px -114px;"><a href="http://digi.sina.com.cn/">新浪数码</a></div>
+	<div class="weblink_yingjian" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.it168.com/">IT168网</a></div>
+	<div class="weblink_yingjian" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.yesky.com/">天极网</a></div>
+	<div class="clear"></div>
+</div>
+<div class="line"></div>
+<div class="list">
+	<div class="webtype">招聘类：</div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -0px;"><a href="http://www.chinahr.com/">中华英才网</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -38px;"><a href="http://www.51job.com/">前程无优</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.zhaopin.com/">智联招聘</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -114px;"><a href="http://www.528.com.cn/">528招聘</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -152px;"><a href="http://www.ncss.org.cn/">高校毕业生网</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -190px;"><a href="http://www.cjol.com/">中国人才热线</a></div>
+	<div class="clear"></div>
+</div>
+<div class="list">
+	<div class="webtype">友情链接：</div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -0px;"><a href="http://freedns.afraid.org/">域名赞助商freedns.afraid.org</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -38px;"><a href="http://freehost.cc">空间赞助商freehost.cc</a></div>
+	<div class="weblink_zhaopin" style="padding-left:3px; background-position:0px -76px;"><a href="http://www.tisula.com/">空间赞助商tisula.com</a></div>
+	<div class="clear"></div>
+</div>
+</body><div style="all: initial;"><div id="__hcfy__" style="all: initial;"></div></div></html>
